@@ -1,35 +1,27 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clothes Store</title>
-</head>
-<body>
-    <h1>Our Products</h1>
-    <ul>
-        {% for product in products %}
-        <li>
-            <h2>{{ product.name }}</h2>
-            <p>{{ product.description }}</p>
-            <p>Price: KSh {{ product.price }}</p>
-            <p>Size: {{ product.size }}</p>
-            <img src="{{ product.image.url }}" alt="{{ product.name }}" width="200">
-            <form action="{% url 'order_product' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="product_id" value="{{ product.id }}">
-                <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity" name="quantity" min="1" required>
-                <label for="size">Size:</label>
-                <input type="text" id="size" name="size" required>
-                <label for="name">Your Name:</label>
-                <input type="text" id="name" name="name" required>
-                <label for="phone_number">Your Phone Number:</label>
-                <input type="text" id="phone_number" name="phone_number" required>
-                <button type="submit">Order via WhatsApp</button>
-            </form>
-        </li>
-        {% endfor %}
-    </ul>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Clothes Store</title>
+    </head>
+    <body>
+        <h1>Products</h1>
+        <ul>
+            {% for product in products  %}
+            <li>
+                <h2>{{ product.name }}</h2>
+                <p>{{ product.description }}</p>
+                <p>Price: ${{ product.price }}</p>
+                <p>SIze: {{ product.size }}</p>
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" width="200">
+
+                {% comment %} order button  {% endcomment %}
+                <a href="https://wa.me/YOUR_PHONE_NUMBER?text=I%20would%20like%20to%20order%20{{ product.name|urlencode }}%20(Size%3A%20{{ product.size|urlencode }}%2C%20Quantity%3A%201)%20Name%3A%20Client%20Name%20Phone%3A%20Client%20Phone"  target="_blank">
+                    <button> Order Through Whatsapp </button>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </body>
 </html>

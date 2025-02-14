@@ -9,30 +9,25 @@ def product_list(request):
 
 def order_product(request):
     if request.method == 'POST':
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            # we extract the data from the form
-            product_id = form.cleaned_data['product_id']
-            quantity = form.cleaned_data['quantity']
-            name = form.cleaned_data['name']
-            phone_number = form.cleaned_data['phone_number']
-            size = form.cleaned_data['size']
+    
+        product_id = request.POST.get['product_id']
+        size = request.POST.get['size']
+        quantity = request.POST.get['quantity']
+        name = request.POST.get['name']
+        phone_number = request.POST.get['phone_number']
 
-            # get the product obejct
-            product = Product.objects.get(id=product_id)
+# getting the product object
+        product = Product.objects.get(id=product_id)
 
+        # message for whatsapp
+        message = f"I would like to order {product.name} (Size: {size}, Quantity: {quantity}).\nName: {name}\nPhone: {phone_number}"
+        # generate whatsapp link
+        whatsapp_url = f"https://wa.me/254720630112?text={message}"
 
-            # we send whatsapp message
-            order_message = f"I want to order {product.name} (Size:{size}, Quantity: {quantity}). \nName: {name}, Phone: {phone_number}"
-            whatsapp_url = f"https://wa.me/254720630112text={order_message}"
+        # redirect to whatsapp
+        return redirect(whatsapp_url)
+    return render(request, 'store/order_product.html')
 
-            # redirect to whatsapp
-            return redirect (whatsapp_url)
-    else:
-        form = OrderForm()
-
-
-    return render(request, 'store/order_product.html', {'form': form})
 
 
 
