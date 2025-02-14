@@ -1,0 +1,13 @@
+.product-image {
+    width: 100%;
+    max-width: 300px; /* Adjust max size */
+    height: auto;
+    display: block;
+    margin: 10px auto;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+  }
+  
+  .product-image:hover {
+    transform: scale(1.05);
+  }
